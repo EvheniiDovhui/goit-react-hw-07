@@ -1,15 +1,30 @@
-import { useState } from 'react'
-import './App.css'
-import ContactsList from './ContactsList/ContactsList'
-import ContactItem from './ContactItem/ContactItem'
+import ContactForm from './ContactForm/ContactForm'
+import SearchBox from './SearchBox/SearchBox'
+import ContactList from './ContactList/ContactList'
+import Title from './Title/Title'
+import { selectLoading, selectError } from '../redux/selectors'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { fetchContacts } from '../redux/operations'
 
-const App = () => {
+function App() {
+	const dispatch = useDispatch()
+	const isLoading = useSelector(selectLoading)
+	const error = useSelector(selectError)
+
+	useEffect(() => {
+		dispatch(fetchContacts())
+	}, [dispatch])
+
 	return (
-		<div>
-			<h1>Contacts App</h1>
-			<ContactsList />
-			<ContactItem />
-		</div>
+		<>
+			<div>
+				<Title />
+				<ContactForm />
+				<SearchBox />
+				{isLoading && !error && <ContactList />}
+			</div>
+		</>
 	)
 }
 
