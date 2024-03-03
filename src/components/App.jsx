@@ -9,12 +9,18 @@ import { fetchContacts } from '../redux/operations'
 
 function App() {
 	const dispatch = useDispatch()
-	const isLoading = useSelector(selectLoading)
+	const loading = useSelector(selectLoading)
 	const error = useSelector(selectError)
 
 	useEffect(() => {
 		dispatch(fetchContacts())
 	}, [dispatch])
+
+	let content = <ContactList />
+
+	if (loading || error) {
+		content = null
+	}
 
 	return (
 		<>
@@ -22,7 +28,7 @@ function App() {
 				<Title />
 				<ContactForm />
 				<SearchBox />
-				{isLoading && !error && <ContactList />}
+				{content}
 			</div>
 		</>
 	)
