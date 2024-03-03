@@ -16,19 +16,14 @@ function App() {
 		dispatch(fetchContacts())
 	}, [dispatch])
 
-	let content = <ContactList />
-
-	if (loading || error) {
-		content = null
-	}
-
 	return (
 		<>
 			<div>
 				<Title />
 				<ContactForm />
 				<SearchBox />
-				{content}
+				{loading && !error}
+				<ContactList />
 			</div>
 		</>
 	)
